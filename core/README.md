@@ -1,6 +1,6 @@
 # core — ядро звука на C++
 
-Одно ядро на мир: собирается нативно (render-cli сейчас, iOS-приложение и AUv3 потом) и в WASM — его крутит AudioWorklet в вебе. План — план нативной версии (в этот репозиторий не входит), фаза 0а — `docs/specs/2026-10-22-native-0a-goetia-wasm-design.md`.
+Одно ядро на мир: собирается нативно (render-cli — офлайн-рендер для сверки) и в WASM — его крутит AudioWorklet в вебе.
 
 - `worlds/goetia/` — Goetia (bytebeat), порт `goetia-worklet.js`; эталон — `tools/ref/goetia-worklet.js`.
 - `worlds/cymatica/` — Cymatica (этап 1): пластина и часы секвенсера (`plate.cpp`), мир SDK (`world.cpp`); эталон — `tools/ref/plate-worklet.js`, сверка — `tools/test-cym-core.mjs`. `build-wasi.sh` — запасная сборка `t2d.wasm` через wasi-sdk (без emscripten).
