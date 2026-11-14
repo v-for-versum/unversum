@@ -1,6 +1,6 @@
 # Oceanus: звук на ядре C++ → WASM
 
-Утверждено с автором 23.10. Путь и правила — как у Firmamentum: `docs/superpowers/specs/2026-10-23-firmamentum-wasm-design.md` (читать первой); здесь — только что у Oceanus своё.
+Утверждено с автором 23.10. Путь и правила — как у Firmamentum: `docs/specs/2026-10-23-firmamentum-wasm-design.md` (читать первой); здесь — только что у Oceanus своё.
 
 ## Цель
 
@@ -40,7 +40,7 @@ double oc_gain(int i)
 
 ## Файлы
 
-`core/worlds/oceanus/ocean.hpp|.cpp`, `wasm.cpp`; `core/render-cli/main.cpp` (+ `world oceanus`: `init <sr> <seed>`, `params …9`, `push <id> <a> <d> <k>`, `release <id>`, `splash <a> <amt>`, `voice <i> <on> <f> <lvl> <path>`, `run`); `core/build.sh` (+ `ocean.wasm`); `ocean.wasm`; `ocean-worklet.js` (обёртка); `tools/ref/ocean-worklet.js`; `tools/ocean-scenarios.mjs`; `tools/test-ocean-core.mjs`; `worlds/oceanus/engine.js`, `index.js` (`t2d.ocean.core`); `sw.js`, `index.html` (версия); `tools/shot.py` (`oceanus`); `core/README.md`, `docs/worlds/oceanus.md`, `docs/native-plan.md`, `CLAUDE.md`.
+`core/worlds/oceanus/ocean.hpp|.cpp`, `wasm.cpp`; `core/render-cli/main.cpp` (+ `world oceanus`: `init <sr> <seed>`, `params …9`, `push <id> <a> <d> <k>`, `release <id>`, `splash <a> <amt>`, `voice <i> <on> <f> <lvl> <path>`, `run`); `core/build.sh` (+ `ocean.wasm`); `ocean.wasm`; `ocean-worklet.js` (обёртка); `tools/ref/ocean-worklet.js`; `tools/ocean-scenarios.mjs`; `tools/test-ocean-core.mjs`; `worlds/oceanus/engine.js`, `index.js` (`t2d.ocean.core`); `sw.js`, `index.html` (версия); `tools/shot.py` (`oceanus`); `core/README.md`, `docs/worlds/oceanus.md`, план нативной версии (в этот репозиторий не входит), `docs/architecture.md`.
 
 ## Проверка
 

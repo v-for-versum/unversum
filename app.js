@@ -1,5 +1,5 @@
 // touch2decay — дрон / нойз на 1–2 пальца. Web Audio + canvas, без зависимостей.
-// хост: сервисы, примитивы и экраны — в host/ (шаги 2–3 docs/refactor-plan.md); здесь роутер касаний, кадр и мир I · Tenebrae
+// хост: сервисы, примитивы и экраны — в host/ (шаги 2–3 рефакторинг шагами 1–7 (завершён)); здесь роутер касаний, кадр и мир I · Tenebrae
 import { an, asym, chanLvl, chans, core, ctx, filter, gainNode, lfo, mix, noiseBuffer, restartAudio, saveMix, scopeBuf, send, setCoreVer, setVol, soft, syncScale, unlock, vol, VOL_TRAVEL } from './host/audio.js';
 import { audioPanel, drawAudioPanel, panelDown, panelGeo, panelHit, panelMove, setAudioPanel, volTap } from './host/audio-panel.js';
 import { link, tempoFrom, transportFrom } from './host/concordia.js';

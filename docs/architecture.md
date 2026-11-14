@@ -1,16 +1,8 @@
-# touch2decay — заметки для Claude
+# Устройство: архитектура, мир из модулей, SDK звука
 
-Эзотерический дрон/нойз-синтезатор для мобильного Safari (iPhone), одна страница без сборки: `index.html` + `app.js` и `host/` (Web Audio + canvas 2D, без зависимостей) + `sw.js` (офлайн) + `fonts/`. Референс по духу — SOMA Lyra-8 и Forge TME Vhikk X. Пользовательская документация — `README.md` (по-русски), планы — `ROADMAP.md`.
+Эзотерический дрон/нойз-синтезатор для мобильного Safari (iPhone), одна страница без сборки: `index.html` + `app.js` и `host/` (Web Audio + canvas 2D, без зависимостей) + `sw.js` (офлайн) + `fonts/`. Референс по духу — SOMA Lyra-8 и Forge TME Vhikk X. Пользовательская документация — `README.md`, планы — `ROADMAP.md`.
 
-Деплой: GitHub `ai-slopes-hq/touch2decay`, ветка `main` → Vercel выкатывает сам. Статус деплоя: `gh api repos/ai-slopes-hq/touch2decay/commits/$(git rev-parse HEAD)/status --jq .state`.
-
-## Как работать с автором
-
-- Пишет по-русски, коротко, с опечатками; отвечать по-русски, кратко и по делу. Названия на экране — по-английски или латынью (миры), без русского текста в интерфейсе.
-- Проверяет всё сам на iPhone по продовому адресу Vercel. **Не делать превью-артефакты** — он смотрит деплой. После правки: коммит → пуш → дождаться `success` → коротко рассказать, что поменялось.
-- Любит, когда сразу делают; спрашивать только когда развилка действительно его (дизайн-решение, которое легко сделать «не так»). Предложения — списком из нескольких вариантов с рекомендацией.
-- Важно ему: «не шумно», красиво и информативно одновременно, удобно одной рукой, не лагает.
-- Я ни разу не видел, как это работает на реальном iPhone, — всё проверено в headless Chromium. Говорить об этом честно.
+Деплой: ветка `main` → Vercel выкатывает сам.
 
 ## Дизайн-принципы
 
@@ -50,7 +42,7 @@
 
 - **Выключенные миры** — `HIDDEN` (сейчас III, XVII, XVIII — 22.10; IX вернулся как Horologium Nova): `registerWorld` их не регистрирует (`hiddenW`), на карте рубашки, нет в микшере, звуке, легенде; `t2d.go(n)` для них — `false`, сценарии `lab` и `horologium` пропускаются (`t2d.hidden`). Номера не отдавать. Вернуть — убрать номер из `HIDDEN`.
 
-- **Все файлы миров и `app.js` — ES-модули** (без IIFE, `<script type="module">` в `index.html`; выполняются по порядку тегов, после разбора страницы). `window.T2D` / `window.t2d` пока глобальные. Версия для `addModule` worklet-ов — `VER` из `import.meta.url` (`document.currentScript` в модулях нет). Переход на model / engine / view — `docs/refactor-plan.md`.
+- **Все файлы миров и `app.js` — ES-модули** (без IIFE, `<script type="module">` в `index.html`; выполняются по порядку тегов, после разбора страницы). `window.T2D` / `window.t2d` пока глобальные. Версия для `addModule` worklet-ов — `VER` из `import.meta.url` (`document.currentScript` в модулях нет). Переход на model / engine / view — `рефакторинг шагами 1–7 (завершён)`.
 - `host/` — сервисы и экраны хоста (шаги 2–3 рефакторинга), импортирует их только `app.js` (и они друг друга, без циклов), миры по-прежнему берут всё через `window.T2D`: `util.js` (`clamp`, `lerpLog`, `inBox`, `$`), `fonts.js` (`MAP`, `READ`, `face`, `reading`), `draw.js` (холст `cv`/`g`, `W/H/DPR`, `scopeY`/`safeBot` и `fitCanvas()`, тема `INK/BG/PAPER` и `setTheme`, `ink`, `ring`, `dot`, `text`, `mapText`, `hairBox`, `glowAt`, `drawCurve`, `sunGlyph`, `quarterSun`), `scale.js` (`SCALES`, `scl`, `NOTES`, `inScale`, `snapSemi`, `scalePCs`, `retune` — мир I перестраивает высоты, ставит `setRetune`), `registry.js` (`worlds`, `nav`, `cur`, `registerWorld`, `HIDDEN`, `ENTER`, `onRegister`), `undo.js` (`hists`, `lasts`, `commit`, `undo(retune)`), `audio.js` (контекст `ctx`, `build()` — мастер и каналы `chans`, затем `w.build(ctx, chanIn)` каждого мира, Tenebrae первым — `solBuild`; микшер `mix`, громкость `vol`/`setVol`, `hall`, `restartAudio`, `unlock`, узлы `gainNode`/`filter`/`lfo`), `touch.js` (пальцы `F`, `TAP_MS`, `DTAP_MS`, `HOLD_MS`), `waves.js` (`WAVES`, `morphFn`, `morphName` — таблицы волн для звука Tenebrae, рисования и LFO).
   Экраны (шаг 3): `ui-top.js` (верхняя строка: `btnPos`, `backPos`, `sclList`, `drawUI`, `drawVol`, `headHit`/`btnHit`, `titleW`, `markDice`), `sl.js` (модель LFO строк, без DOM), `sheet.js` (плашка FX / мира: `fxSheet`/`setFxSheet`, `fxGeo`, `sheetHit`/`sheetDown`/`sheetMove`/`sheetUp`, `drawFxSheet`, `drawSlPanel`, пад `PAD_IN`/`shapeT`/`padRate`/`padDepth`), `legend.js` (`LEGEND`, `legenda`/`setLegenda`, `drawLegenda`), `strain.js` (нагрузка; живость графа даёт мир I — `setGraphLoad`), `deck.js` (колоды `DECKS`, `CELL`, `field`, `cellRect`, `mapWorlds`), `concordia.js` (`link`, `perScl`, `tempoFrom`, `settingsBox`/`drawSettings`/`settingsDown`), `mixer.js` (`mixGeo`, `drawMixer`, `mixDown`/`mixMove`), `map.js` (`WORLDS`, `goMap`, `goWorld`, `navDown`, `emblemFor`, `cardBack`, `drawNav`), `midi.js` (внешние MIDI-часы: сетка долей, `T.midiGrid`, `stepTime`/`due`, пуск/стоп и темп мирам с `tempo`; оболочка зовёт `window.t2dMidi`; разбор байтов часов — `clockParser`), `webmidi.js` (компьютер, Android: Web MIDI → те же сообщения, строка *midi clock* в панели audio, `audioPref.midi`; на iPhone Web MIDI нет), `clock.js` (метроном секвенсоров: `onTick` — подписчиков зовут таймер 25 мс и `clock-worklet.js` из звукового потока, `startClock(ctx)` в `build`, `clockLive`), `audio-panel.js` (тап по громкости — панель audio: `audioPanel`, `panelHit/Down/Move`, `volTap`, `drawAudioPanel`; *stable* — `toggleStable` из concordia). Изменяемые `let` (`ctx`, `W`, `INK`, `face`, `vol`, `undoAt`, `fxSheet`, `legenda`, `titleW`…) меняет только их модуль — снаружи импорт только читается (менять — `setFxSheet`, `setLegenda`…).
 - `app.js` — роутер касаний (`down`/`move`/`up`, `uiHit`/`uiDown`/`uiMove`/`uiUp`: хостовые ветки зовут `headHit`, `btnHit`, `sheet*` и т. п.), кадр `frame`, события, `window.T2D`/`window.t2d` — и весь мир I. Секции помечены `// ---------- … ----------`.
@@ -64,7 +56,7 @@
 
 ## Мир из модулей: model / engine / view (утверждено на шаге 4, образец — `worlds/firmamentum/`)
 
-Миры переезжают из одного файла в `worlds/<мир>/` (порядок — `docs/refactor-plan.md`). Зачем: под нативный iOS алгоритм, звук и картинка должны лежать отдельно.
+Миры переезжают из одного файла в `worlds/<мир>/` (порядок — `рефакторинг шагами 1–7 (завершён)`). Зачем: под нативный iOS алгоритм, звук и картинка должны лежать отдельно.
 - **`model.js`** — `createModel({ scale, rng, …метрики })` → `{ state, действия (addStar, moveStar, setFx, dice, clear…), tick(dt), snapshot(), restore(js), sounding(), listen(fn) }`. Только данные и алгоритм: **нет DOM, холста, Web Audio, `window.T2D`, `performance.now()`, `Math.random` напрямую**. Время — секунды через `tick(dt)` (склейка считает `dt` из `now` кадра, без обрезки), случайность — `rng`, лад — `scale { on, snap }`. Если алгоритму нужна экранная мера (комета задевает звёзды в 90 px), её даёт склейка чистой функцией (`place(sky) → {x, y}`). Что должно прозвучать — **синхронные события** слушателям: `{ t: 'star', s, on, added? }`, `'fp'`, `'ff'`, `'fx'` (у секвенсеров — расписание шагов, см. ниже). `state` — живые объекты (`t2d.<мир>` и view читают их напрямую), меняет их только модель. Снимок — тот же JSON, что был.
 - **`engine.js`** — `createEngine(T, model, ver)` → `{ build(ctx, chanIn), start(), on(event), listen(fn), ready, …метры }`. Единственное место с Web Audio: шина, посыл в общий зал `T.send('hall')` (ядро), worklet (`addModule('…?v=' + ver)`, `ver` — из `import.meta.url` у `index.js`). `build` хост зовёт на каждом новом `AudioContext` (`restartAudio`), `start` — лениво (первая звезда, вход в мир). `on(event)` — событие модели → узлы / сообщение worklet (без опроса каждый кадр). Обратно — метры (`gains`, `counts`) для чтения и `listen` — что услышано (вспышки, пылинки) для view. `model.state` только читает.
 - **`view.js`** — `createView(T, model, engine)` → `{ theme, corner, fx, legend, down, move, up, tick(now), draw(now), heard(e), mapShot }`; геометрия — чистые функции модуля (`geo(T)`, `fromSky`). Касание → действие модели, **никогда не трогает звук**; от engine — только метры. Плашки (`T.openSheet`), FX-веер, легенда — здесь; `get/set` идут в модель.
@@ -113,9 +105,7 @@
 
 - При каждой выкладке поднимать **вместе** `CACHE` в `sw.js` и `?v=` у всех модулей в `index.html` (одно число; у всех тегов — заменой по `?v=`). Иначе на телефоне залипнет старая версия. Сервис-воркер: страница и код — сначала из сети, кеш — без сети; новая версия подхватывается при возврате в приложение, страница перезагружается, когда ничего не звучит.
 - Новые файлы, нужные офлайн, — в списки `HOST` / `MODULES` / `WORKLETS` / `STATIC` в `sw.js`. Импорты `host/` — без `?v=` (одна строка адреса на модуль, иначе два экземпляра состояния); свежесть даёт сервис-воркер (код — из сети мимо HTTP-кеша).
-- README обновлять вместе с поведением (по-русски, в духе существующего текста). Коммиты — по-английски, по делу, с телом-списком.
 - `node --check app.js` и `host/*.js` перед коммитом.
-- В конце чата — строка в `docs/tokens.md` (дата, мир / задача, что сделано, токены ≈), в том же коммите, что и итоговые доки.
 
 ## Проверка
 
@@ -143,10 +133,3 @@
 - Arcadia: рельеф изолиниями сверху, как топокарта, — «инфузория под микроскопом»; теперь гравюра в псевдоперспективе, как Natura. Portus: солнца ночью нет — луна в углу; острова по очереди (прогрессия по тактам) — «одни и те же ноты по кругу», потом 16 лучей от фонарей — «не понимаю»; теперь один фарватер, как река Natura; аккорд только у маяка, кораблик — нота.
 - Защита нагрузки по частоте кадров — путала энергосбережение (30 к/с) с перегрузкой, урезала голоса; убрана.
 
-## Дальше
-
-**С 22.10 миры заморожены** (автор): новых не делаем, имеющиеся не меняем — только баги и рефакторинг. **Цель — нативное iOS-приложение** (AUv3, Link, фон, MIDI, многоканально в USB-интерфейс, Torso S-4): миры по одному переносятся в C++, веб остаётся главным, пока не перенесены все. План — **`docs/native-plan.md`**.
-
-Рефакторинг веба (`docs/refactor-plan.md`): шаги 1–7 сделаны (v165) — все миры, кроме Tenebrae и выключенных, лежат в `worlds/<мир>/` как model / engine / view, это и есть шов «ядро ↔ view» для переноса; шаг 8 (Tenebrae) и 9 — по мере надобности переносу (см. `docs/native-plan.md`).
-
-См. `ROADMAP.md`: наполнить миры II–IV (Cabbala — модальный синтез: 10 сфирот = 10 мод, 22 пути = связи; Rosarium — FM на 4 операторах-стихиях; Regnum — VA + ревербы/делеи), сохранение сцен, запись, второй хостинг (GitHub Pages / Yandex Object Storage). Первым делом — узнать у автора, как оно на iPhone после оптимизации.

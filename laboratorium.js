@@ -9,7 +9,7 @@
 // solve · coagula — грязная задержка с фильтром в петле, как у Make Noise Strega (караоке-чип PT2399): solve — время (коротко — резонанс,
 // дальше эхо, длинно — крошево: меньше бит, слышно тиканье часов чипа), coagula — сколько эффекта и повторов (0 — выключен).
 // Солнце — четверть в правом верхнем углу (к центру карты), тап — карта; в правом нижнем — четверть древа жизни (корни — у змей).
-// Спека: docs/superpowers/specs/2026-10-20-laboratorium-design.md
+// Спека: docs/specs/2026-10-20-laboratorium-design.md
 const T = window.T2D;
 const TAU = Math.PI * 2;
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));

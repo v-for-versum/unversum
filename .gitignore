@@ -257,3 +257,5 @@ $RECYCLE.BIN/
 __pycache__/
 .superpowers/
 .ipynb_checkpoints/
+.kilo/
+.trace/

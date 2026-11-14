@@ -1,7 +1,7 @@
 // Cymatica — мир II: склейка model / engine / view и регистрация в хосте.
 // Звучащая пластина Хладни — ханг: тап — удар (клетка — нота: сектор — ступень лада, кольцо — октава), щипок или колесо — размер
 // пластины, то есть высота. Астролябия вокруг — секвенсер: ритм и мелодия своей длины (полиритм), часы — в plate-worklet.js.
-// Спека: docs/superpowers/specs/2026-10-20-cymatica-design.md, часть 2.
+// Спека: docs/specs/2026-10-20-cymatica-design.md, часть 2.
 import { createModel } from './model.js';
 import { createEngine } from './engine.js';
 import { createView, BOWS_ON } from './view.js';

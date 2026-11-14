@@ -97,7 +97,7 @@ class World {
 
 ## Выкладка
 
-Ветка `native`, превью, «ок» автора → `main`. `CACHE` / `?v=` — следующее число за продом. В `sw.js`: `t2d.wasm`, `t2d-worklet.js` — в `WORKLETS`; `pulsar.wasm`, `pulsar-worklet.js` — убрать. Документы: `core/README.md`, `docs/worlds/firmamentum.md`, `docs/native-plan.md` (новый порядок фаз: SDK → B → AUv3 → остальные миры), `CLAUDE.md` (раздел про ядро и `T.send`).
+Ветка `native`, превью, «ок» автора → `main`. `CACHE` / `?v=` — следующее число за продом. В `sw.js`: `t2d.wasm`, `t2d-worklet.js` — в `WORKLETS`; `pulsar.wasm`, `pulsar-worklet.js` — убрать. Документы: `core/README.md`, `docs/worlds/firmamentum.md`, план нативной версии (в этот репозиторий не входит) (новый порядок фаз: SDK → B → AUv3 → остальные миры), `docs/architecture.md` (раздел про ядро и `T.send`).
 
 ## Риски
 
