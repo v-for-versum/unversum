@@ -1,6 +1,6 @@
 # Firmamentum: звук на ядре C++ → WASM
 
-Утверждено с автором 23.10. Контекст — план нативной версии (в этот репозиторий не входит) (фаза 3, миры с worklet; фаза 0 закрыта). Образец — Goetia, `docs/specs/2026-10-22-native-0a-goetia-wasm-design.md`: здесь то же, кроме случайности.
+Утверждено с автором 23.10. Контекст — нативный план, в этот репозиторий не входит (фаза 3, миры с worklet; фаза 0 закрыта). Образец — Goetia, `docs/specs/2026-10-22-native-0a-goetia-wasm-design.md`: здесь то же, кроме случайности.
 
 ## Цель
 
@@ -31,7 +31,7 @@ tools/firm-scenarios.mjs             сценарии и загрузчики (�
 tools/test-firm-core.mjs             сверка эталон ↔ WASM ↔ render-cli, замер скорости
 ```
 
-Правки: `worlds/firmamentum/engine.js` (байты и зерно), `sw.js` (`WORKLETS` += `./pulsar.wasm`, `CACHE`), `index.html` (`?v=`), `tools/shot.py` (сценарий `firmamentum`), `core/README.md`, `docs/worlds/firmamentum.md`, план нативной версии (в этот репозиторий не входит), `docs/architecture.md` (строка мира X в таблице).
+Правки: `worlds/firmamentum/engine.js` (байты и зерно), `sw.js` (`WORKLETS` += `./pulsar.wasm`, `CACHE`), `index.html` (`?v=`), `tools/shot.py` (сценарий `firmamentum`), `core/README.md`, `docs/worlds/firmamentum.md`, нативный план (в этот репозиторий не входит), `docs/architecture.md` (строка мира X в таблице).
 
 ## Ядро (C++17)
 
